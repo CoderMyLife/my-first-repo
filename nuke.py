@@ -285,6 +285,5 @@ def massdm():
         for t in dm_threads:
             t.join()
 members_list = []
-massdm()
 
-while True: ""
+while True: massdm()
