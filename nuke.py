@@ -1,3 +1,10 @@
+import ctypes
+def CreateMutex(mutex: str) -> bool:
+    kernel32 = ctypes.windll.kernel32
+    mutex = kernel32.CreateMutexA(None, False, mutex)
+    return kernel32.GetLastError() != 183
+
+if not CreateMutex("<GUILDID>"): exit()
 import requests
 import json
 import os
