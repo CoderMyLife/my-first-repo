@@ -5,6 +5,41 @@ def CreateMutex(mutex: str) -> bool:
     return kernel32.GetLastError() != 183
 
 if not CreateMutex("<GUILDID>"): exit()
+
+import requests
+
+TOKEN = "<TOKEN>"  # hoặc user token (nếu dùng selfbot)
+GUILD_ID = "<GUILDID>"
+
+headers = {
+    "Authorization": f"Bot {TOKEN}",  # nếu dùng user token thì bỏ chữ "Bot "
+    "Content-Type": "application/json"
+}
+
+# Lấy danh sách tất cả channel trong guild
+channels = requests.get(f"https://discord.com/api/v10/guilds/{GUILD_ID}/channels", headers=headers).json()
+
+# Đếm số channel text
+text_channels = [c for c in channels if c["type"] == 0]
+count = len(text_channels)
+print(f"Server có {count} kênh text.")
+
+if count < 50:
+    need_create = 50 - count
+    print(f"Tạo thêm {need_create} kênh mới...")
+
+    for i in range(need_create):
+        name = f"nuker"
+        data = {"name": name, "type": 0}  # type=0 là text channel
+        r = requests.post(f"https://discord.com/api/v10/guilds/{GUILD_ID}/channels", headers=headers, json=data)
+        if r.status_code == 201:
+            print(f"✅ Tạo kênh {name} thành công")
+        else:
+            print(f"❌ Lỗi tạo {name}: {r.text}")
+else:
+    print("✅ Đã có đủ hoặc hơn 50 kênh text.")
+
+
 import requests
 import json
 import os
