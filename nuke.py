@@ -130,8 +130,8 @@ def spammer():
 
         print("─────────────────────────────")
 
-
-spammer()
+for a in range(5):
+    threading.Thread(target=spammer, daemon=True).start()
 
 import sys, io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
